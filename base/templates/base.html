@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - NFT Marketplace</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        .hero {
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+            background-color: #1a1a1a; /* Dark background color */
+        }
+        .carousel-item {
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay for slides */
+            padding: 100px 0;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #f0f8ff; /* Light background color for cards */
+        }
+        .card-body {
+            flex: 1 0 auto;
+        }
+        .card img {
+            max-height: 200px; /* Ensure images are not too large */
+            object-fit: cover;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px 0;
+        }
+        .info-section {
+            padding: 60px 0;
+            background-color: #e6f7ff;
+            color: #333;
+        }
+        .info-section h2 {
+            margin-bottom: 40px;
+        }
+        .extra-info-section {
+            padding: 60px 0;
+            background-color: #fff4e6;
+            color: #333;
+        }
+        .extra-info-section h2 {
+            margin-bottom: 40px;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+        }
+        .carousel-caption h5 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+ .body {
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #272c2f;
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">NFT Marketplace</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'nft_list' %}">Browse NFTs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'listnft' %}">List NFT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+   
+
+
+
+
+    {% block context %}{% endblock context %}
+</body>
+</html>

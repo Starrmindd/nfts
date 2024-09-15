@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% block context %}
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - NFT Marketplace</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- AOS CSS -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<!-- Custom CSS -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="stylesheet" id="struninnuicards_digital-fonts-css" href="https://fonts.googleapis.com/css2?family=Kumbh+Sans%3Awght%40400%3B700&amp;display=swap&amp;ver=6.6.1" media="all">
+<link rel="stylesheet" id="um_fonticons_ii-css" href="https://blackchipart.xyz/wp-content/plugins/ultimate-member/assets/libs/legacy/fonticons/fonticons-ii.min.css?ver=2.8.6" media="all">
+<link rel="stylesheet" id="google-fonts-1-css" href="https://fonts.googleapis.com/css?family=Rajdhani%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CNunito+Sans%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=swap&amp;ver=6.6.1" media="all">
+
+
+
+
+
+
+
+<style>
+    .hero {
+        color: white;
+        text-align: center;
+        padding: 100px 0;
+        background-color: #1a1a1a; /* Dark background color */
+    }
+    .carousel-item {
+        background-color: #272c2f; /* Semi-transparent overlay for slides */
+        padding: 100px 0;
+    }
+    .carousel.pointer-event {
+        -ms-touch-action: pan-y;
+        touch-action: pan-y;
+        background-color: #272c2f;
+    }
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: #f0f8ff; /* Light background color for cards */
+    }
+    .card-body {
+        flex: 1 0 auto;
+        background-color: #272c2f;
+    }
+    .card img {
+        max-height: 200px; /* Ensure images are not too large */
+        object-fit: cover;
+    }
+    .footer {
+        background-color: ##272C2F;
+        padding: 30px 0;
+    }
+    .info-section {
+        padding: 60px 0;
+        background:  linear-gradient(to right, #272c2f, #11011f);
+        color: white;
+    
+    }
+    .info-section h2 {
+        margin-bottom: 40px;
+    }
+    .extra-info-section {
+        padding: 60px 0;
+        background:  linear-gradient(to right, #272c2f, #11011f) ;
+        }
+    .navbar-light .navbar-brand {
+        color: wheat;
+        font-family: "Rajdhani", sans-serif,fantasy;
+        font-size: 22px;
+        font-weight: 600;
+    
+    }
+    .bg-light {
+        background-color: #272c2f!important;
+    }
+    .navbar-light .navbar-nav .nav-link {
+        color: wheat;
+    }
+    .extra-info-section h2 {
+        margin-bottom: 40px;
+    }
+    .carousel-item img {
+        width: 100%;
+        height: auto;
+    }
+    .carousel-caption h5 {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    body {
+        margin: 0;
+        font-family:rajdhani;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: white;
+        text-align: left;
+        background-color: #272c2f;
+    }
+    .h2, h2 {
+    font-size: 2rem;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+   }
+   .h5, h5 {
+    color: white;
+    font-size: 22px;
+    font-family: system-ui;
+    letter-spacing: 2px;
+}
+
+.btn-primary{
+font-family: "Rajdhani", Sans-serif;
+font-size: 18px;
+font-weight: 600;
+text-transform: capitalize;
+font-style: normal;
+line-height: 1.27em;
+fill: #E7CE9C;
+color: #E7CE9C;
+background-color: transparent;
+background-image: linear-gradient(180deg, var(--e-global-color-secondary ) 55%, var(--e-global-color-text ) 100%);
+border-style: solid;
+border-width: 1px 1px 1px 1px;
+border-color: #8A8282;
+border-radius: 5px 5px 5px 5px;
+}
+.btn:not(:disabled):not(.disabled){
+
+
+    font-family: "Rajdhani", Sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    font-style: normal;
+    line-height: 1.27em;
+    fill: #E7CE9C;
+    color: #E7CE9C;
+    background-color: transparent;
+    background-image: linear-gradient(180deg, var(--e-global-color-secondary ) 55%, var(--e-global-color-text ) 100%);
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #8A8282;
+    border-radius: 5px 5px 5px 5px;
+
+}
+
+</style>
+
+
+
+<div class="container mt-5">
+        <h1 class="text-center mb-4">List Your NFT</h1>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">NFT Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter NFT name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="4" placeholder="Enter NFT description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="price">Price (ETH)</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="Enter price in ETH" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="image">NFT Image</label>
+                <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">List NFT</button>
+        </form>
+    </div>
+   
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+{% endblock context %}

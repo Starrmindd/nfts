@@ -1,0 +1,285 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - NFT Marketplace</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="stylesheet" id="struninnuicards_digital-fonts-css" href="https://fonts.googleapis.com/css2?family=Kumbh+Sans%3Awght%40400%3B700&amp;display=swap&amp;ver=6.6.1" media="all">
+    <link rel="stylesheet" id="um_fonticons_ii-css" href="https://blackchipart.xyz/wp-content/plugins/ultimate-member/assets/libs/legacy/fonticons/fonticons-ii.min.css?ver=2.8.6" media="all">
+    <link rel="stylesheet" id="google-fonts-1-css" href="https://fonts.googleapis.com/css?family=Rajdhani%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CNunito+Sans%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=swap&amp;ver=6.6.1" media="all">
+
+
+    <style>
+        .hero {
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+            background-color: #1a1a1a; /* Dark background color */
+        }
+        .carousel-item {
+            background-color: #272c2f; /* Semi-transparent overlay for slides */
+            padding: 100px 0;
+        }
+        .carousel.pointer-event {
+            -ms-touch-action: pan-y;
+            touch-action: pan-y;
+            background-color: #272c2f;
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: #f0f8ff; /* Light background color for cards */
+        }
+        .card-body {
+            flex: 1 0 auto;
+            background-color: #272c2f;
+        }
+        .card img {
+            max-height: 200px; /* Ensure images are not too large */
+            object-fit: cover;
+        }
+        .footer {
+            background-color: ##272C2F;
+            padding: 30px 0;
+        }
+        .info-section {
+            padding: 60px 0;
+            background:  linear-gradient(to right, #272c2f, #11011f);
+            color: white;
+        
+        }
+        .info-section h2 {
+            margin-bottom: 40px;
+        }
+        .extra-info-section {
+            padding: 60px 0;
+            background:  linear-gradient(to right, #272c2f, #11011f) ;
+            }
+        .navbar-light .navbar-brand {
+            color: wheat;
+            font-family: "Rajdhani", sans-serif,fantasy;
+            font-size: 22px;
+            font-weight: 600;
+        
+        }
+        .bg-light {
+            background-color: #272c2f!important;
+        }
+        .navbar-light .navbar-nav .nav-link {
+            color: wheat;
+        }
+        .extra-info-section h2 {
+            margin-bottom: 40px;
+        }
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+        }
+        .carousel-caption h5 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        body {
+            margin: 0;
+            font-family:rajdhani;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: white;
+            text-align: left;
+            background-color: #272c2f;
+        }
+        .h2, h2 {
+        font-size: 2rem;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+       }
+       .h5, h5 {
+        color: white;
+        font-size: 22px;
+        font-family: system-ui;
+        letter-spacing: 2px;
+}
+
+.btn-primary{
+    font-family: "Rajdhani", Sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: capitalize;
+    font-style: normal;
+    line-height: 1.27em;
+    fill: #E7CE9C;
+    color: #E7CE9C;
+    background-color: transparent;
+    background-image: linear-gradient(180deg, var(--e-global-color-secondary ) 55%, var(--e-global-color-text ) 100%);
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #8A8282;
+    border-radius: 5px 5px 5px 5px;
+}
+.btn:not(:disabled):not(.disabled){
+
+   
+        font-family: "Rajdhani", Sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        text-transform: capitalize;
+        font-style: normal;
+        line-height: 1.27em;
+        fill: #E7CE9C;
+        color: #E7CE9C;
+        background-color: transparent;
+        background-image: linear-gradient(180deg, var(--e-global-color-secondary ) 55%, var(--e-global-color-text ) 100%);
+        border-style: solid;
+        border-width: 1px 1px 1px 1px;
+        border-color: #8A8282;
+        border-radius: 5px 5px 5px 5px;
+    
+}
+
+</style>
+
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/"> <h2>BlackChip</h2> <h5>Art NFT Marketplace </h5> </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'nft_list' %}">Browse NFTs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'listnft' %}">List NFT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="heroCarousel" class="carousel slide hero" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-aos="fade-in" data-aos-duration="1000">
+                <img src="{% static 'base/images/ape-banner-1.jpg' %}" alt="My Static Image">
+                <div class="container">
+                    <h1>Welcome to NFT Marketplace</h1>
+                    <p>Discover, collect, and trade NFTs with ease.</p>
+                    <a href="{% url 'nft_list' %}" class="btn btn-primary btn-lg">Browse NFTs</a>
+                </div>
+            </div>
+            <div class="carousel-item" data-aos="fade-up" data-aos-duration="1000">
+                <img src="{% static 'base/images/Screenshot-20.png' %}" alt="My Static Image">
+                <div class="container">
+                    <h1>Explore Unique NFTs</h1>
+                    <p>Find rare and exclusive digital assets.</p>
+                    <a href="{% url 'nft_list' %}" class="btn btn-secondary btn-lg">Explore Now</a>
+                </div>
+            </div>
+            <div class="carousel-item" data-aos="fade-down" data-aos-duration="1000">
+                <img src="{% static 'base/images/ancient-aliens-lol.png' %}" alt="My Static Image">
+                <div class="container">
+                    <h1>Join the NFT Revolution</h1>
+                    <p>Be part of the growing NFT community.</p>
+                    <a href="{% url 'listnft' %}" class="btn btn-success btn-lg">List Your NFT</a>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </header>
+    
+    <!-- Example for Featured NFTs Section -->
+    <section class="container my-5">
+        <h2 class="text-center mb-4" data-aos="fade-up" data-aos-duration="1000">Featured NFTs</h2>
+        <div class="row">
+            {% for nft in featured_nfts %}
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="card">
+                        <img src="{{ nft.image.url }}" class="card-img-top" alt="{{ nft.name }}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ nft.name }}</h5>
+                            <p class="card-text">{{ nft.description|slice:":100" }}{% if nft.description|length > 100 %}...{% endif %}</p>
+                            <p class="card-text">Price: {{ nft.price }} ETH</p>
+                            <div class="mt-auto">
+                                <a href="{% url 'nft_detail' nft.id %}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <p class="text-center">No featured NFTs available.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <!-- Example for What Are NFTs Section -->
+    <section class="info-section" data-aos="fade-up" data-aos-duration="1000">
+        <div class="container text-center">
+            <h2>What Are NFTs?</h2>
+            <p>NFTs, or Non-Fungible Tokens, are unique digital assets that represent ownership or proof of authenticity for a specific item or piece of content. They are built on blockchain technology, providing transparency and security.</p>
+        </div>
+    </section>
+    
+    <!-- Example for Why NFTs Section -->
+    <section class="extra-info-section" data-aos="fade-up" data-aos-duration="1000">
+        <div class="container text-center">
+            <h2>Why Invest in NFTs?</h2>
+            <p>NFTs are not just digital assets; they represent a new era of digital ownership. By investing in NFTs, you are securing a piece of the future, owning something that is unique and potentially valuable in the years to come.</p>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2024 NFT Marketplace. All rights reserved.</p>
+            <p>
+                <a href="">Contact Us</a> |
+                <a href="">Privacy Policy</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init();
+    </script>
+</body>
+</html>
