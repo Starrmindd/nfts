@@ -128,3 +128,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# settings.py
+
+WEB3_PROVIDER = "https://mainnet.infura.io/v3/a334486f863d447c90f3e07f12f6c582"

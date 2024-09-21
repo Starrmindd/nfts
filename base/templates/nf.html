@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Marketplace</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>NFT Marketplace</h1>
+
+        <!-- NFTs for Sale -->
+        <h2>Available NFTs</h2>
+        <div class="row">
+            {% for nft in nfts_for_sale %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{{ nft.image_url }}" class="card-img-top" alt="NFT Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Token ID: {{ nft.token_id }}</h5>
+                        <p class="card-text">{{ nft.description }}</p>
+                        <p class="card-text">Price: {{ nft.price }} ETH</p>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#buyModal" data-nft-id="{{ nft.token_id }}" data-nft-price="{{ nft.price }}" data-buy-url="{% url 'buy_nft' token_id=nft.token_id %}">Buy</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- User-owned NFTs -->
+        <!-- User-owned NFTs -->
+<h2>Your NFTs</h2>
+<div class="row">
+    {% for nft in user_nfts %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <img src="{{ nft.image_url }}" class="card-img-top" alt="{{ nft.description }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ nft.description }}</h5>
+                <p class="card-text">Owned by you</p>
+                {% if nft.is_for_sale %}
+                    <p class="card-text text-success">This NFT is listed for sale at {{ nft.price }} ETH</p>
+                {% else %}
+                    <form action="{% url 'list_nft_for_sale' nft.token_id %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="number" name="price" placeholder="Enter price in ETH" class="form-control mb-2" step="0.01" required>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">List for Sale</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+    
+    <!-- Buy NFT Modal -->
+    <div class="modal fade" id="buyModal" tabindex="-1" role="dialog" aria-labelledby="buyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buyModalLabel">Buy NFT</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="buyForm" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <p>Are you sure you want to buy this NFT?</p>
+                        <input type="hidden" name="token_id" id="buyTokenId">
+                        <input type="hidden" name="price" id="buyPrice">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Confirm Purchase</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle modal data attributes for Buy NFT
+        $('#buyModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var tokenId = button.data('nft-id'); // Extract token ID from data-* attributes
+            var price = button.data('nft-price'); // Extract price from data-* attributes
+            var buyUrl = button.data('buy-url'); // Extract URL from data-* attributes
+            var modal = $(this);
+            modal.find('#buyTokenId').val(tokenId);
+            modal.find('#buyPrice').val(price);
+            modal.find('form').attr('action', buyUrl); // Set form action URL
+        });
+    </script>
+</body>
+</html>

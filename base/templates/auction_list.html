@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Auction Listings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+        }
+        .nft-container {
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+        .nft-card {
+            background-color: #222; /* Dark background for NFT cards */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .nft-image-wrapper {
+            flex: 1;
+            max-width: 300px; /* Adjust the maximum width of the image wrapper */
+        }
+        .nft-image {
+            width: 100%; /* Make image fill the wrapper */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 10px;
+        }
+        .nft-details {
+            flex: 2;
+            padding-left: 20px;
+        }
+        .btn-buy {
+            background-color: #ff9900;
+            color: #000;
+        }
+        .btn-buy:hover {
+            background-color: #ffb84d;
+        }
+        .nft-title, .nft-creator {
+            color: #ffb84d; /* Gold text for titles and creators */
+        }
+        .price-tag {
+            color: #00ff00; /* Green text for price */
+        }
+        .auction-time {
+            color: #ff0000; /* Red text for auction time */
+        }
+        /* Additional section styles */
+        h2.section-title {
+            margin-top: 50px;
+            color: #ff9900;
+            text-align: center;
+        }
+        /* Added button styles */
+        .btn-purchased-nfts {
+            background-color: #28a745; /* Green button */
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .btn-purchased-nfts:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container nft-container">
+        <h1 class="text-center mb-5">NFT Auction Listings</h1>
+
+        <div class="text-center mb-4">
+            <a href="{% url 'purchase' %}" class="btn btn-purchased-nfts">View Your Purchased NFTs</a>
+        </div>
+        <!-- NFT Auction Listings -->
+        {% for auction in auctions %}
+        <div class="nft-card">
+            <div class="nft-image-wrapper">
+                <img src="{{ auction.nft_image.url }}" alt="{{ auction.nft_title }} Image" class="nft-image">
+            </div>
+            <div class="nft-details">
+                <h3 class="nft-title">{{ auction.nft_title }}</h3>
+                <p class="nft-creator">Created by: <strong>{{ auction.creator_name }}</strong></p>
+                <p class="nft-description">{{ auction.description }}</p>
+                <p class="price-tag">Current Price: {{ auction.current_price }} ETH</p>
+                <p class="auction-time">
+                    Auction Ends In: 
+                    {{ auction.end_time|timeuntil }} <!-- Django template filter to show time remaining -->
+                </p>
+                <div class="mt-3">
+                    <a href="{% url 'buy_nft' auction.nft_title %}" class="btn btn-buy me-2">Buy Now</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No auctions available at the moment.</p>
+        {% endfor %}
+
+        <!-- NFT Seller List Section -->
+        <h2 class="section-title">NFTs Listed by Sellers</h2>
+        
+        {% for nft in seller %}
+        <div class="nft-card">
+            <div class="nft-image-wrapper">
+                <img src="{{ nft.nft_image.url }}" alt="{{ nft.nft_title }} Image" class="nft-image">
+            </div>
+            <div class="nft-details">
+                <h3 class="nft-title">{{ nft.nft_title }}</h3>
+                <p class="nft-description">{{ nft.description }}</p>
+                <p class="price-tag">Listed Price: {{ nft.current_price }} ETH</p>
+                <p class="nft-status">Status: Active</p>
+                <div class="mt-3">
+                    {% if not nft.is_sold %}
+                        <a href="{% url 'delist_nft' nft.id %}" class="btn btn-danger me-2">Delist</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>You have not listed any NFTs for sale yet.</p>
+        {% endfor %}
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

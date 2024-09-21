@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Purchased NFTs</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #181818;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 50px;
+      color: #f1c40f;
+    }
+    .nft-card {
+      background-color: #222;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    .nft-image {
+      max-width: 100%;
+      max-height: 150px;
+      border-radius: 8px;
+    }
+    .sell-button {
+      background-color: #f1c40f;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .sell-button:hover {
+      background-color: #d4ac0d;
+    }
+    .sold-button {
+      background-color: #2ecc71;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+    }
+    #sell-nft-modal {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      z-index: 1050;
+    }
+    .modal-content {
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 500px;
+      color: #fff;
+    }
+    .modal-header {
+      font-size: 24px;
+      color: #f1c40f;
+      text-align: center;
+    }
+    .btn-cancel {
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .btn-cancel:hover {
+      background-color: #c0392b;
+    }
+    .modal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nft-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .nft-details p {
+      margin: 0;
+    }
+    .nft-card img {
+      padding: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Your Purchased NFTs</h1>
+
+    <div class="row">
+      {% for ownership in owned_nfts %}
+      <div class="col-md-4">
+        <div class="nft-card">
+          <h3>{{ ownership.auction.nft_title }}</h3>
+          <div class="nft-details">
+            <p><strong>Collection:</strong> {{ ownership.auction.nft_collection }}</p>
+            <p><strong>Token ID:</strong> {{ ownership.auction.token_id }}</p>
+            <p><strong>Creator:</strong> {{ ownership.auction.creator_name }}</p>
+            <p><strong>Current Price:</strong> eth {{ ownership.auction.current_price }}</p>
+            <p><img src="{{ ownership.auction.nft_image.url }}" alt="{{ ownership.auction.nft_title }}" class="nft-image"></p>
+          </div>
+          
+          <!-- Check if NFT is sold or listed -->
+          {% if ownership.auction.is_sold %}
+            <button class="sold-button" disabled>Sold</button>
+            <form method="POST" action="{% url 'delist_nft' ownership.auction.id %}" class="mt-2">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delist</button>
+            </form>
+          {% else %}
+            <button class="sell-button mt-3" data-nft-id="{{ ownership.auction.id }}">Sell</button>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Sell NFT Modal -->
+    <div id="sell-nft-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          Sell Your NFT
+        </div>
+        <form method="POST" action="{% url 'list_sale' %}">
+          {% csrf_token %}
+          <input type="hidden" name="nft_id" id="nft-id-input">
+          <div class="mb-3">
+            <label for="price" class="form-label">Set Selling Price:</label>
+            <input type="number" step="0.01" name="price" id="price-input" class="form-control" required>
+          </div>
+          <p>Are you sure you want to sell this NFT?</p>
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-warning">Yes, List for Sale</button>
+            <button type="button" class="btn-cancel" onclick="hideModal()">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Show Sell Modal
+    document.querySelectorAll('.sell-button').forEach(button => {
+      button.addEventListener('click', function () {
+        const nftId = this.getAttribute('data-nft-id');
+        document.getElementById('nft-id-input').value = nftId;
+        document.getElementById('sell-nft-modal').style.display = 'flex';
+      });
+    });
+
+    // Hide Sell Modal
+    function hideModal() {
+      document.getElementById('sell-nft-modal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy NFT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+        }
+        .nft-container {
+            max-width: 900px;
+            margin: 50px auto;
+        }
+        .nft-card {
+            background-color: #222;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .nft-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .btn-buy {
+            background-color: #ff9900;
+            color: #000;
+        }
+        .btn-buy:hover {
+            background-color: #ffb84d;
+        }
+        .nft-title, .nft-creator {
+            color: #ffb84d; /* Gold text for titles and creators */
+        }
+        .price-tag {
+            color: #00ff00; /* Green text for price */
+        }
+        /* Spinner styles */
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ccc;
+            border-top-color: #007bff;
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+        }
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* Tick mark styles */
+        .tick {
+            display: none;
+            color: #28a745; /* Green color for tick */
+            font-size: 48px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container nft-container">
+        <h1 class="text-center mb-5">{{ nft.nft_title }} - Buy Now</h1>
+
+        <div class="nft-card">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ nft.nft_image.url }}" alt="{{ nft.nft_title }} Image" class="nft-image">
+                </div>
+                <div class="col-md-6">
+                    <h3 class="nft-title">{{ nft.nft_title }}</h3>
+                    <p class="nft-creator">Created by: <strong>{{ nft.creator_name }}</strong></p>
+                    <p class="nft-description">{{ nft.description }}</p>
+                    <p class="price-tag">Price: {{ nft.current_price }} ETH</p>
+                    <p>Seller Wallet: {{ nft.seller_wallet }}</p>
+                    
+                    <button class="btn btn-buy" data-bs-toggle="modal" data-bs-target="#buyNFTModal">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="alert alert-danger">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Buy NFT Modal -->
+    <div class="modal fade" id="buyNFTModal" tabindex="-1" aria-labelledby="buyNFTModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #000; color: #fff;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buyNFTModalLabel">Confirm NFT Purchase</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  method="POST" action="{% url 'buy_nft' nft.nft_title %}">
+                        {% csrf_token %}
+                        
+                        <!-- Buyer's Wallet Address -->
+                        <div class="mb-3">
+                            <label for="walletAddress" class="form-label">Your Wallet Address</label>
+                            <input type="text" class="form-control" id="walletAddress" name="wallet_address" placeholder="Enter your Ethereum wallet address" required>
+                        </div>
+                        
+                        <!-- Buyer's Private Key (for signing the transaction) -->
+                        <div class="mb-3">
+                            <label for="privateKey" class="form-label">Private Key (for Transaction Signing)</label>
+                            <input type="password" class="form-control" id="privateKey" name="private_key" placeholder="Enter your private key" required>
+                        </div>
+                    
+                        <!-- Transaction Amount (NFT Price) -->
+                        <div class="mb-3">
+                            <label for="transactionAmount" class="form-label">Transaction Amount</label>
+                            <input type="text" class="form-control" id="transactionAmount" value="{{ nft.current_price }} ETH" readonly>
+                        </div>
+                    
+                        <!-- Estimated Gas Fees -->
+                        <div class="mb-3">
+                            <label for="gasFees" class="form-label">Estimated Gas Fees</label>
+                            <input type="text" class="form-control" id="gasFees" value="Gas fees will be calculated at transaction time" readonly>
+                        </div>
+                    
+                        <!-- Seller's Wallet Address (displayed for transparency) -->
+                        <div class="mb-3">
+                            <label for="sellerWalletAddress" class="form-label">Seller's Wallet Address</label>
+                            <input type="text" class="form-control" id="sellerWalletAddress" value="{{ nft.seller_wallet }}" readonly>
+                        </div>
+                    
+                        <!-- NFT Information (Token ID and Smart Contract Address) -->
+                        <div class="mb-3">
+                            <label for="nftInfo" class="form-label">NFT Information</label>
+                            <input type="text" class="form-control" id="nftInfo" value="Token ID: {{ nft.token_id }}, Contract: {{ nft.contract_address }}" readonly>
+                        </div>
+                        
+                        <!-- Confirm Purchase Button -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Confirm Purchase</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div class="modal fade" id="paymentSuccessModal" tabindex="-1" aria-labelledby="paymentSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background-color: #000; color: #fff;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentSuccessModalLabel">Payment Successful!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="spinner" class="spinner mb-3"></div>
+                    <div id="tick" class="tick">&#10004;</div>
+                    <h4 id="paymentMessage">Payment Completed</h4>
+                    <p>Thank you for your purchase!</p>
+                    <a href="" class="btn btn-primary mt-3">Click Here to View Your NFT</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Handle form submission
+        const buyNFTForm = document.getElementById('buyNFTForm');
+        buyNFTForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Show spinner and hide tick
+            const spinner = document.getElementById('spinner');
+            const tick = document.getElementById('tick');
+            const paymentMessage = document.getElementById('paymentMessage');
+
+            spinner.style.display = 'block';
+            tick.style.display = 'none';
+
+            // Create a FormData object to handle form submission
+            const formData = new FormData(buyNFTForm);
+
+            // Submit the form using fetch
+            fetch(buyNFTForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server
+                if (data.success) {
+                    // Show payment success modal
+                    const paymentSuccessModal = new bootstrap.Modal(document.getElementById('paymentSuccessModal'));
+                    paymentSuccessModal.show();
+
+                    // Simulate payment success after 4 seconds
+                    setTimeout(function () {
+                        spinner.style.display = 'none';
+                        tick.style.display = 'block';
+                        paymentMessage.innerHTML = "Payment Completed!";
+                    }, 4000);
+                } else {
+                    // Handle error messages
+                    spinner.style.display = 'none';
+                    alert(data.message || "An error occurred.");
+                }
+            })
+            .catch(error => {
+                spinner.style.display = 'none';
+                alert("An error occurred: " + error.message);
+            });
+        });
+    </script>
+</body>
+</html>

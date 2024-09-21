@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin NFTs</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #181818;
+      color: #fff;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 50px;
+      color: #f1c40f;
+    }
+    .nft-card {
+      background-color: #222;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    }
+    .nft-image {
+      max-width: 100%;
+      max-height: 150px;
+      border-radius: 8px;
+    }
+    .action-link {
+      color: #f1c40f;
+      text-decoration: none;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .action-link:hover {
+      text-decoration: underline;
+    }
+    #success-modal {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      z-index: 1050;
+    }
+    .modal-content {
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 400px;
+      color: #fff;
+      text-align: center;
+    }
+    .modal-header {
+      font-size: 24px;
+      color: #f1c40f;
+    }
+    .btn-close {
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .btn-close:hover {
+      background-color: #c0392b;
+    }
+    .nft-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .nft-details p {
+      margin: 0;
+    }
+    .nft-card img {
+      padding: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Admin View List</h1>
+
+    <div class="row">
+      {% for ownership in admin %}
+      <div class="col-md-4">
+        <div class="nft-card">
+          <h3>{{ ownership.nft_title }}</h3>
+          <div class="nft-details">
+            <p><strong>Collection:</strong> {{ ownership.nft_collection }}</p>
+            <p><strong>Token ID:</strong> {{ ownership.token_id }}</p>
+            <p><strong>Creator:</strong> {{ ownership.creator_name }}</p>
+            <p><strong>Current Price:</strong> ETH {{ ownership.current_price }}</p>
+            <p><img src="{{ ownership.nft_image.url }}" alt="{{ ownership.nft_title }}" class="nft-image"></p>
+          </div>
+          <!-- Action Links: List and Delist -->
+          <div class="actions">
+            {% if ownership.admin_list %}
+              <a href="{% url 'delist_nft' ownership.pk %}" class="action-link" onclick="handleDelist(this, {{ ownership.token_id }})">Delist</a>
+            {% else %}
+              <a href="{% url 'list_admin' ownership.pk %}" class="action-link" onclick="handleList(this, {{ ownership.token_id }})">List</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="success-modal">
+    <div class="modal-content">
+      <h2 class="modal-header">Success!</h2>
+      <p>You have successfully updated the NFT listing.</p>
+      <button class="btn-close" onclick="closeModal()"></button>
+    </div>
+  </div>
+
+  <script>
+    function handleDelist(link, tokenId) {
+      // Simulate API call (You would send a request to the server here)
+      console.log(`Delisting token ID: ${tokenId}`);
+
+      // Update the link to "List"
+      link.innerHTML = 'List';
+      link.onclick = function() { handleList(link, tokenId) };
+
+      // Show success modal
+      document.getElementById('success-modal').style.display = 'flex';
+    }
+
+    function handleList(link, tokenId) {
+      // Simulate API call (You would send a request to the server here)
+      console.log(`Listing token ID: ${tokenId}`);
+
+      // Update the link to "Delist"
+      link.innerHTML = 'Delist';
+      link.onclick = function() { handleDelist(link, tokenId) };
+
+      // Show success modal
+      document.getElementById('success-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('success-modal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
