@@ -8,6 +8,220 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- AOS CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="stylesheet" id="struninnuicards_digital-fonts-css" href="https://fonts.googleapis.com/css2?family=Kumbh+Sans%3Awght%40400%3B700&amp;display=swap&amp;ver=6.6.1" media="all">
+    <link rel="stylesheet" id="um_fonticons_ii-css" href="https://blackchipart.xyz/wp-content/plugins/ultimate-member/assets/libs/legacy/fonticons/fonticons-ii.min.css?ver=2.8.6" media="all">
+    <link rel="stylesheet" id="google-fonts-1-css" href="https://fonts.googleapis.com/css?family=Rajdhani%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CNunito+Sans%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&amp;display=swap&amp;ver=6.6.1" media="all">
+
+    
+        <style>
+          
+          
+    
+            .hero {
+                color: white;
+                text-align: center;
+                padding: 100px 0;
+                background-color: #1a1a1a; /* Dark background color */
+            }
+            .carousel-item {
+                background-color: #272c2f; /* Semi-transparent overlay for slides */
+                padding: 100px 0;
+            }
+            .carousel.pointer-event {
+                -ms-touch-action: pan-y;
+                touch-action: pan-y;
+                background-color: #272c2f;
+            }
+            .card {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                background-color: #f0f8ff; /* Light background color for cards */
+            }
+            .card-body {
+                flex: 1 0 auto;
+                background-color: #272c2f;
+            }
+            .card img {
+                max-height: 200px; /* Ensure images are not too large */
+                object-fit: cover;
+            }
+            .footer {
+                background-color: ##272C2F;
+                padding: 30px 0;
+            }
+            .info-section {
+                padding: 60px 0;
+                background:  linear-gradient(to right, #272c2f, #11011f);
+                color: white;
+            
+            }
+            .info-section h2 {
+                margin-bottom: 40px;
+            }
+            .extra-info-section {
+                padding: 60px 0;
+                background:  linear-gradient(to right, #272c2f, #11011f) ;
+                }
+            .navbar-light .navbar-brand {
+                color: wheat;
+                font-family: "Rajdhani", sans-serif,fantasy;
+                font-size: 22px;
+                font-weight: 600;
+            
+            }
+            .bg-light {
+                background-color: #272c2f!important;
+            }
+            .navbar-light .navbar-nav .nav-link {
+                color: wheat;
+            }
+            .extra-info-section h2 {
+                margin-bottom: 40px;
+            }
+            .carousel-item img {
+                width: 100%;
+                height: auto;
+            }
+            .carousel-caption h5 {
+                font-size: 2rem;
+                font-weight: bold;
+            }
+            body {
+                margin: 0;
+                font-family:rajdhani;
+                font-size: 1rem;
+                font-weight: 400;
+                line-height: 1.5;
+                color: white;
+                text-align: left;
+                background-color: #272c2f;
+            }
+            .h2, h2 {
+            font-size: 2rem;
+            font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+           }
+           .h5, h5 {
+            color: white;
+            font-size: 22px;
+            font-family: system-ui;
+            letter-spacing: 2px;
+    }
+    
+    .btn-primary{
+        font-family: "Rajdhani", Sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        text-transform: capitalize;
+        font-style: normal;
+        line-height: 1.27em;
+        fill: #E7CE9C;
+        color: #E7CE9C;
+        background-color: transparent;
+        background-image: linear-gradient(180deg, var(--e-global-color-secondary ) 55%, var(--e-global-color-text ) 100%);
+        border-style: solid;
+        border-width: 1px 1px 1px 1px;
+        border-color: #8A8282;
+        border-radius: 5px 5px 5px 5px;
+    }
+    .btn:not(:disabled):not(.disabled){
+    
+       
+            font-family: "Rajdhani", Sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: capitalize;
+            font-style: normal;
+            line-height: 1.27em;
+            fill: #E7CE9C;
+            color: #E7CE9C;
+            background-color: transparent;
+            background-image: linear-gradient(180deg, var(--e-global-color-secondary ) 55%, var(--e-global-color-text ) 100%);
+            border-style: solid;
+            border-width: 1px 1px 1px 1px;
+            border-color: #8A8282;
+            border-radius: 5px 5px 5px 5px;
+        
+    }
+    
+
+        body {
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+        }
+        .nft-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            background: #272c2f;
+        }
+        .nft-card {
+            background-color: #272c2f;
+            border-radius: 13px;
+            border: 1px solid #E7CE9C;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 13px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+         }
+        .nft-image-wrapper {
+            flex: 1;
+            max-width: 300px; /* Adjust the maximum width of the image wrapper */
+        }
+        .nft-image {
+            width: 100%; /* Make image fill the wrapper */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 10px;
+        }
+        .nft-details {
+            flex: 2;
+            padding-left: 20px;
+        }
+        .btn-buy {
+            background-color: #ff9900;
+            color: #000;
+        }
+        .btn-buy:hover {
+            background-color: #ffb84d;
+        }
+        .nft-title, .nft-creator {
+            color: #ffb84d; /* Gold text for titles and creators */
+        }
+        .price-tag {
+            color: #00ff00; /* Green text for price */
+        }
+        .auction-time {
+            color: #ff0000; /* Red text for auction time */
+        }
+        /* Additional section styles */
+        h2.section-title {
+            margin-top: 50px;
+            color: #ff9900;
+            text-align: center;
+        }
+        /* Added button styles */
+        .btn-purchased-nfts {
+            background-color: #28a745; /* Green button */
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        .btn-purchased-nfts:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-4">
