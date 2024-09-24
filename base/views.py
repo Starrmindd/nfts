@@ -401,7 +401,7 @@ def is_admin(user):
 @user_passes_test(is_admin, login_url='/login/')
 def adminview(request):
     if not request.user.is_authenticated:
-        return redirect('login')  # Redirect to login if user is not authenticated
+        return redirect('login')  # Redirect to login if user is not authenticatedd
     admin = Auction.objects.filter(is_active=True)
     context = {
         'admin': admin
