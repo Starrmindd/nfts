@@ -305,7 +305,7 @@ def buy_nft(request, nft_title):
             # Create the Ownership Record for the Buyer
             Ownership.objects.create(
                 user=buyer,
-                auction=nft  # Link the auction/NFT to the buyer
+                auction=nft  # Link the auction/NFT to thed jkbuyer
             )
 
             # Success message
@@ -401,7 +401,7 @@ def is_admin(user):
 @user_passes_test(is_admin, login_url='/login/')
 def adminview(request):
     if not request.user.is_authenticated:
-        return redirect('login')  # Redirect to login if user is not authenticated
+        return redirect('login')  # Redirect to login if user is not authenticatedd
     admin = Auction.objects.filter(is_active=True)
     context = {
         'admin': admin

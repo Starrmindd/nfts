@@ -103,6 +103,11 @@
     <script src="https://unpkg.com/@walletconnect/qrcode-modal/dist/index.umd.js"></script>
 
     <script>
+        // Detect if the user is on a mobile browser
+        function isMobile() {
+            return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        }
+
         // MetaMask + WalletConnect integration
         async function connectWallet() {
             let provider;
@@ -130,12 +135,14 @@
                     // Enable WalletConnect session
                     await provider.enable();
                     const accounts = provider.accounts;
-                    if (provider.wc.connected) {
+
+                    // If on mobile, use deep linking for Trust Wallet
+                    if (isMobile()) {
                         const uri = provider.connector.uri;
-                        WalletConnectQRCodeModal.open(uri, () => {
-                            console.log("QR Code Modal closed");
-                        });
+                        const trustWalletLink = `https://link.trustwallet.com/wc?uri=${encodeURIComponent(uri)}`;
+                        window.location.href = trustWalletLink;
                     }
+
                     return accounts[0]; // return the first account (primary)
                 } catch (error) {
                     console.error("WalletConnect error:", error);
