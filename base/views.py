@@ -130,8 +130,7 @@ def create_auction(request):
         end_time = tz.localize(end_time)
 
         # Check if an auction already exists for this token ID
-        if Auction.objects.filter(token_id=token_id).exists():
-            return HttpResponse("Auction already exists for this NFT", status=400)
+       
 
         # Create and save the auction manually
         auction = Auction(
@@ -162,7 +161,7 @@ def auction_list(request):
     Auction.objects.filter(end_time__lt=timezone.now(), is_active=True).update(is_active=False)
 
     # Filter active auctions that are not sold and not listed
-    auctions = Auction.objects.filter(is_active=True,is_listed=False,is_sold=False,admin_list=True)
+    auctions = Auction.objects.filter(is_active=False,is_listed=False,is_sold=False,admin_list=True) 
     seller = Auction.objects.filter(is_active=True,is_listed=True,is_sold=True)
     return render(request, 'auction_list.html', {'auctions': auctions,'seller':seller})
 
@@ -246,7 +245,15 @@ from web3 import Web3
 from web3.exceptions import InvalidAddress, TransactionNotFound, ContractLogicError
 
 # Set up Web3 with your Infura endpoint
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
+from web3 import Web3
+from .models import Ownership, Auction
+
+# Initialize Web3
 web3 = Web3(Web3.HTTPProvider("https://mainnet.infura.io/v3/a334486f863d447c90f3e07f12f6c582"))
+
 @login_required(login_url="login")
 def buy_nft(request, nft_title):
     # Retrieve the NFT based on its title
@@ -254,11 +261,10 @@ def buy_nft(request, nft_title):
 
     if request.method == 'POST':
         wallet_address = request.POST.get('wallet_address')
-        private_key = request.POST.get('private_key')
 
-        # Validate the wallet address and private key
-        if not wallet_address or not private_key:
-            messages.error(request, "Wallet address and private key are required.")
+        # Validate the wallet address
+        if not wallet_address:
+            messages.error(request, "Wallet address is required.")
             return redirect('buy_nft', nft_title=nft_title)
 
         # Ensure the NFT has a seller assigned
@@ -274,79 +280,46 @@ def buy_nft(request, nft_title):
         seller_wallet = nft.seller_wallet
         nft_price = nft.current_price
 
-        # try:
+        try:
             # Convert ETH to Wei
-            # nft_price_in_wei = web3.to_wei(nft_price, 'ether')
+            nft_price_in_wei = web3.to_wei(nft_price, 'ether')
 
-            # # Get the nonce for the buyer's wallet address
-            # nonce = web3.eth.get_transaction_count(wallet_address)
+            # Create the transaction details
+            transaction = {
+                'to': seller_wallet,
+                'value': nft_price_in_wei,
+                'gas': 21000,  # You can adjust this as needed
+                'gasPrice': web3.to_wei('50', 'gwei'),
+            }
 
-            # # Create the transaction details
-            # transaction = {
-            #     'nonce': nonce,
-            #     'to': seller_wallet,
-            #     'value': nft_price_in_wei,
-            #     'gas': 21000,  # You can adjust this as needed
-            #     'gasPrice': web3.to_wei('50', 'gwei'),
-            # }
+            # Sign the transaction with a connected wallet
+            # You will need to implement the signing and sending of the transaction in the frontend
 
-            # # Sign the transaction with the buyer's private key
-            # signed_transaction = web3.eth.account.sign_transaction(transaction, private_key)
+            # Update NFT ownership and status
+            nft.seller_wallet = wallet_address  # Update seller wallet to buyer's wallet
+            nft.owner = buyer  # Change ownership to the buyer
+            nft.is_active = False 
+            nft.is_listed = True  # Remove from general market
+            nft.save()  # Mark as sold
 
-            # # Send the transaction to the blockchain
-            # tx_hash = web3.eth.send_raw_transaction(signed_transaction.raw_transaction)
+            # Create the Ownership Record for the Buyer
+            Ownership.objects.create(
+                user=buyer,
+                auction=nft  # Link the auction/NFT to the buyer
+            )
 
-            # # Wait for the transaction to be confirmed
-            # web3.eth.wait_for_transaction_receipt(tx_hash)
-            
-        nft.seller_wallet = wallet_address  # Update seller wallet to buyer's wallet
-        nft.owner = buyer  # Change ownership to the buyer
-        nft.is_active = False 
-        nft.is_listed = True  # Remove from general market
-        nft.save() # Mark as sold
-     
+            # Success message
+            messages.success(request, f"Purchase successful! Please check your wallet for the transaction.")
+            return redirect('purchase')
 
-        # **Create the Ownership Record for the Buyer:**
-        Ownership.objects.create(
-            user=buyer,
-            auction=nft  # Link the auction/NFT to the buyer
-        )
-        # Record the transaction in the database
-        # Transaction.objects.create(
-        #     buyer=request.user,
-        #     seller=seller,
-        #     nft=nft,
-        #     price=nft.current_price
-        # )
-# ?{tx_hash.hex()}
-        # Mark the NFT as sold
-        nft.is_active = False
-        nft.save()
+        except Exception as e:
+            messages.error(request, f"An unexpected error occurred: {str(e)}")
 
-        # Success message
-        messages.success(request, f"Purchase successful! Transaction Hash: ")
-        return redirect('purchase')
-
-        # except InvalidAddress:
-        #     messages.error(request, "Transaction failed: Invalid wallet address provided.")
-        # except ValueError as ve:
-        #     error_message = str(ve)
-        #     if 'insufficient funds' in error_message.lower():
-        #         messages.error(request, "Transaction failed: Insufficient funds in the wallet.")
-        #     else:
-        #         messages.error(request, f"Transaction failed: {error_message}")
-        # except TransactionNotFound:
-        #     messages.error(request, "Transaction not found. Please try again.")
-        # except ContractLogicError:
-        #     messages.error(request, "Transaction failed due to smart contract logic.")
-        # except Exception as e:
-        #     messages.error(request, f"An unexpected error occurred: {str(e)}")
-
-        # # Redirect back to the buy page on error
-        # return redirect('buy_nft', nft_title=nft_title)
+        # Redirect back to the buy page on error
+        return redirect('buy_nft', nft_title=nft_title)
 
     return render(request, 'buy_nft.html', {'nft': nft})
- 
+
 
 from django.shortcuts import render
 from .models import Ownership, Auction
@@ -417,6 +390,7 @@ def delist_nft(request, nft_id):
 
     messages.success(request, "Your NFT has been delisted.")
     return redirect('purchase')
+
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import redirect
 

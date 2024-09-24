@@ -272,7 +272,7 @@
                 <p class="price-tag">Listed Price: {{ nft.current_price }} ETH</p>
                 <p class="nft-status">Status: Active</p>
                 <div class="mt-3">
-                    <div class="btn btn-buy me-2">Buy Now</a>
+                  <a href="{% url 'buy_nft' nft.nft_title %}"> <div class="btn btn-buy me-2">Buy Now</a>
                 </div>
             </div>
          
