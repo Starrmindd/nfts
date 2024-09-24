@@ -305,7 +305,7 @@ def buy_nft(request, nft_title):
             # Create the Ownership Record for the Buyer
             Ownership.objects.create(
                 user=buyer,
-                auction=nft  # Link the auction/NFT to the buyer
+                auction=nft  # Link the auction/NFT to thed jkbuyer
             )
 
             # Success message
